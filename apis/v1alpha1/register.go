@@ -13,7 +13,7 @@ import (
 
 // Package type metadata.
 const (
-	Group   = "template.upbound.io"
+	Group   = "aerospike.aerospike.terasky.com"
 	Version = "v1alpha1"
 )
 

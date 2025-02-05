@@ -4,18 +4,18 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.14.0
-  name: resources.null.template.upbound.io
+  name: roles.aerospike.aerospike.terasky.com
 spec:
-  group: null.template.upbound.io
+  group: aerospike.aerospike.terasky.com
   names:
     categories:
     - crossplane
     - managed
-    - template
-    kind: Resource
-    listKind: ResourceList
-    plural: resources
-    singular: resource
+    - aerospike
+    kind: Role
+    listKind: RoleList
+    plural: roles
+    singular: role
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -34,10 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Resource is the Schema for the Resources API. The null_resource
-          resource implements the standard resource lifecycle but takes no further
-          action.hashicorp. The triggers argument allows specifying an arbitrary set
-          of values that, when changed, will cause the resource to be replaced.
+        description: Role is the Schema for the Roles API. Aerospike Role
         properties:
           apiVersion:
             description: |-
@@ -57,7 +54,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: ResourceSpec defines the desired state of Resource
+            description: RoleSpec defines the desired state of Role
             properties:
               deletionPolicy:
                 default: Delete
@@ -75,14 +72,47 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  triggers:
-                    additionalProperties:
-                      type: string
+                  privileges:
                     description: |-
-                      running any associated provisioners.
-                      A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.
-                    type: object
-                    x-kubernetes-map-type: granular
+                      (Attributes Set) Privilege set, comprised from {privilege="name",namespace="name",set="name"] maps. Namespace and Set are optional (see below for nested schema)
+                      Privilege set, comprised from {privilege="name",namespace="name",set="name"] maps. Namespace and Set are optional
+                    items:
+                      properties:
+                        namespace:
+                          description: if nulll the privilege will apply to all namespaces.
+                            must not be an empty string
+                          type: string
+                        privilege:
+                          description: (String) Privilege name
+                          type: string
+                        set:
+                          description: if null the privilege will apply to all sets.
+                            Must be used with namespace. Must not be an emptry string
+                          type: string
+                      type: object
+                    type: array
+                  readQuota:
+                    description: |-
+                      (Number) Read quota to apply to the role
+                      Read quota to apply to the role
+                    type: number
+                  roleName:
+                    description: |-
+                      (String) Role name
+                      Role name
+                    type: string
+                  whiteList:
+                    description: |-
+                      (List of String) A list of IP addresses allowed to connect.
+                      A list of IP addresses allowed to connect.
+                    items:
+                      type: string
+                    type: array
+                  writeQuota:
+                    description: |-
+                      (Number) write quota to apply to the role
+                      write quota to apply to the role
+                    type: number
                 type: object
               initProvider:
                 description: |-
@@ -97,14 +127,47 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  triggers:
-                    additionalProperties:
-                      type: string
+                  privileges:
                     description: |-
-                      running any associated provisioners.
-                      A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.
-                    type: object
-                    x-kubernetes-map-type: granular
+                      (Attributes Set) Privilege set, comprised from {privilege="name",namespace="name",set="name"] maps. Namespace and Set are optional (see below for nested schema)
+                      Privilege set, comprised from {privilege="name",namespace="name",set="name"] maps. Namespace and Set are optional
+                    items:
+                      properties:
+                        namespace:
+                          description: if nulll the privilege will apply to all namespaces.
+                            must not be an empty string
+                          type: string
+                        privilege:
+                          description: (String) Privilege name
+                          type: string
+                        set:
+                          description: if null the privilege will apply to all sets.
+                            Must be used with namespace. Must not be an emptry string
+                          type: string
+                      type: object
+                    type: array
+                  readQuota:
+                    description: |-
+                      (Number) Read quota to apply to the role
+                      Read quota to apply to the role
+                    type: number
+                  roleName:
+                    description: |-
+                      (String) Role name
+                      Role name
+                    type: string
+                  whiteList:
+                    description: |-
+                      (List of String) A list of IP addresses allowed to connect.
+                      A list of IP addresses allowed to connect.
+                    items:
+                      type: string
+                    type: array
+                  writeQuota:
+                    description: |-
+                      (Number) write quota to apply to the role
+                      write quota to apply to the role
+                    type: number
                 type: object
               managementPolicies:
                 default:
@@ -273,23 +336,63 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.privileges is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.privileges)
+                || (has(self.initProvider) && has(self.initProvider.privileges))'
+            - message: spec.forProvider.roleName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.roleName)
+                || (has(self.initProvider) && has(self.initProvider.roleName))'
           status:
-            description: ResourceStatus defines the observed state of Resource.
+            description: RoleStatus defines the observed state of Role.
             properties:
               atProvider:
                 properties:
                   id:
-                    description: (String) This is set to a random value at create
-                      time.
                     type: string
-                  triggers:
-                    additionalProperties:
-                      type: string
+                  privileges:
                     description: |-
-                      running any associated provisioners.
-                      A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.
-                    type: object
-                    x-kubernetes-map-type: granular
+                      (Attributes Set) Privilege set, comprised from {privilege="name",namespace="name",set="name"] maps. Namespace and Set are optional (see below for nested schema)
+                      Privilege set, comprised from {privilege="name",namespace="name",set="name"] maps. Namespace and Set are optional
+                    items:
+                      properties:
+                        namespace:
+                          description: if nulll the privilege will apply to all namespaces.
+                            must not be an empty string
+                          type: string
+                        privilege:
+                          description: (String) Privilege name
+                          type: string
+                        set:
+                          description: if null the privilege will apply to all sets.
+                            Must be used with namespace. Must not be an emptry string
+                          type: string
+                      type: object
+                    type: array
+                  readQuota:
+                    description: |-
+                      (Number) Read quota to apply to the role
+                      Read quota to apply to the role
+                    type: number
+                  roleName:
+                    description: |-
+                      (String) Role name
+                      Role name
+                    type: string
+                  whiteList:
+                    description: |-
+                      (List of String) A list of IP addresses allowed to connect.
+                      A list of IP addresses allowed to connect.
+                    items:
+                      type: string
+                    type: array
+                  writeQuota:
+                    description: |-
+                      (Number) write quota to apply to the role
+                      write quota to apply to the role
+                    type: number
                 type: object
               conditions:
                 description: Conditions of the resource.

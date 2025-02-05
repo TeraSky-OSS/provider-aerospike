@@ -1,0 +1,18 @@
+apiVersion: aerospike.aerospike.terasky.com/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: aerospike/v1alpha1/user
+  labels:
+    testing.upbound.io/example-name: test2
+  name: test2
+spec:
+  forProvider:
+    passwordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+    roles:
+    - role21
+    - role22
+    userName: test2

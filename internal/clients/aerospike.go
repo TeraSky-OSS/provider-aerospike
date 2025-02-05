@@ -15,7 +15,7 @@ import (
 
 	"github.com/crossplane/upjet/pkg/terraform"
 
-	"github.com/upbound/upjet-provider-template/apis/v1beta1"
+	"github.com/terasky-oss/provider-aerospike/apis/v1beta1"
 )
 
 const (
@@ -24,7 +24,12 @@ const (
 	errGetProviderConfig    = "cannot get referenced ProviderConfig"
 	errTrackUsage           = "cannot track ProviderConfig usage"
 	errExtractCredentials   = "cannot extract credentials"
-	errUnmarshalCredentials = "cannot unmarshal template credentials as JSON"
+	errUnmarshalCredentials = "cannot unmarshal aerospike credentials as JSON"
+	hostKey                 = "host"
+	portKey                 = "port"
+	usernameKey             = "user_name"
+	passwordKey             = "password"
+	connectionTimeoutKey    = "connection_timeout"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
@@ -63,10 +68,13 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		}
 
 		// Set credentials in Terraform provider configuration.
-		/*ps.Configuration = map[string]any{
-			"username": creds["username"],
-			"password": creds["password"],
-		}*/
+		ps.Configuration = map[string]any{
+			hostKey:              creds["host"],
+			portKey:              creds["port"],
+			usernameKey:          creds["user_name"],
+			passwordKey:          creds["password"],
+			connectionTimeoutKey: creds["connection_timeout"],
+		}
 		return ps, nil
 	}
 }

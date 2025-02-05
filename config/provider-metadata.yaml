@@ -1,40 +1,52 @@
-name: hashicorp/null
+name: hsafra/aerospike
 resources:
-    null_resource:
+    aerospike_role:
         subCategory: ""
-        description: The null_resource resource implements the standard resource lifecycle but takes no further action. On Terraform 1.4 and later, use the terraform_data resource type https://developer.hashicorp.com/terraform/language/resources/terraform-data instead. The triggers argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.
-        name: null_resource
-        title: null_resource Resource - terraform-provider-null
+        description: Aerospike Role
+        name: aerospike_role
+        title: aerospike_role Resource - terraform-provider-aerospike
         examples:
-            - name: cluster
+            - name: role2
               manifest: |-
                 {
-                  "connection": [
+                  "privileges": [
                     {
-                      "host": "${element(aws_instance.cluster[*].public_ip, 0)}"
+                      "namespace": "aerospike",
+                      "privilege": "read",
+                      "set": "set1"
                     }
                   ],
-                  "provisioner": {
-                    "remote-exec": [
-                      {
-                        "inline": [
-                          "bootstrap-cluster.sh ${join(\" \",\n      aws_instance.cluster[*].private_ip)}"
-                        ]
-                      }
-                    ]
-                  },
-                  "triggers": {
-                    "cluster_instance_ids": "${join(\",\", aws_instance.cluster[*].id)}"
-                  }
+                  "read_quota": 10,
+                  "role_name": "role2"
                 }
-              dependencies:
-                aws_instance.cluster: |-
-                    {
-                      "ami": "ami-0dcc1e21636832c5d",
-                      "count": 3,
-                      "instance_type": "m5.large"
-                    }
         argumentDocs:
-            id: (String) This is set to a random value at create time.
-            triggers: (Map of String) A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.
+            namespace: (String) Namespace. Optional - if nulll the privilege will apply to all namespaces. must not be an empty string
+            privilege: (String) Privilege name
+            privileges: (Attributes Set) Privilege set, comprised from {privilege="name",namespace="name",set="name"] maps. Namespace and Set are optional (see below for nested schema)
+            read_quota: (Number) Read quota to apply to the role
+            role_name: (String) Role name
+            set: (String) Set. Optional - if null the privilege will apply to all sets. Must be used with namespace. Must not be an emptry string
+            white_list: (List of String) A list of IP addresses allowed to connect.
+            write_quota: (Number) write quota to apply to the role
+        importStatements: []
+    aerospike_user:
+        subCategory: ""
+        description: Aerospike user
+        name: aerospike_user
+        title: aerospike_user Resource - terraform-provider-aerospike
+        examples:
+            - name: test2
+              manifest: |-
+                {
+                  "password": "test24",
+                  "roles": [
+                    "role21",
+                    "role22"
+                  ],
+                  "user_name": "test2"
+                }
+        argumentDocs:
+            password: (String, Sensitive) Password
+            roles: (List of String) Roles that should be granted to the user
+            user_name: (String) User name
         importStatements: []
