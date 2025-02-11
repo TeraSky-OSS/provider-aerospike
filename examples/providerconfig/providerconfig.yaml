@@ -1,4 +1,4 @@
-apiVersion: aerospike.upbound.io/v1beta1
+apiVersion: aerospike.aerospike.terasky.com/v1beta1
 kind: ProviderConfig
 metadata:
   name: default

@@ -10,8 +10,8 @@ import "github.com/crossplane/upjet/pkg/config"
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// Import requires using a randomly generated ID from provider: nl-2e21sda
-	"aerospike_user": config.IdentifierFromProvider,
-	"aerospike_role": config.IdentifierFromProvider,
+	"aerospike_user": config.ParameterAsIdentifier("user_name"),
+	"aerospike_role": config.ParameterAsIdentifier("role_name"),
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
