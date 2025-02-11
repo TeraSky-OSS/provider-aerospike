@@ -29,7 +29,7 @@ const (
 	portKey                 = "port"
 	usernameKey             = "user_name"
 	passwordKey             = "password"
-	connectionTimeoutKey    = "connection_timeout"
+	connectionTimeoutKey    = "connect_timeout"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
@@ -73,7 +73,7 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			portKey:              creds["port"],
 			usernameKey:          creds["user_name"],
 			passwordKey:          creds["password"],
-			connectionTimeoutKey: creds["connection_timeout"],
+			connectionTimeoutKey: creds["connect_timeout"],
 		}
 		return ps, nil
 	}
