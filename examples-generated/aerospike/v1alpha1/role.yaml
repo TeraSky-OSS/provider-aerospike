@@ -13,4 +13,3 @@ spec:
       privilege: read
       set: set1
     readQuota: 10
-    roleName: role2

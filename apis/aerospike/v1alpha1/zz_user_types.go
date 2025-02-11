@@ -22,10 +22,6 @@ type UserInitParameters struct {
 	// (List of String) Roles that should be granted to the user
 	// Roles that should be granted to the user
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
-
-	// (String) User name
-	// User name
-	UserName *string `json:"userName,omitempty" tf:"user_name,omitempty"`
 }
 
 type UserObservation struct {
@@ -34,10 +30,6 @@ type UserObservation struct {
 	// (List of String) Roles that should be granted to the user
 	// Roles that should be granted to the user
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
-
-	// (String) User name
-	// User name
-	UserName *string `json:"userName,omitempty" tf:"user_name,omitempty"`
 }
 
 type UserParameters struct {
@@ -51,11 +43,6 @@ type UserParameters struct {
 	// Roles that should be granted to the user
 	// +kubebuilder:validation:Optional
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
-
-	// (String) User name
-	// User name
-	// +kubebuilder:validation:Optional
-	UserName *string `json:"userName,omitempty" tf:"user_name,omitempty"`
 }
 
 // UserSpec defines the desired state of User
@@ -95,7 +82,6 @@ type User struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.passwordSecretRef)",message="spec.forProvider.passwordSecretRef is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userName) || (has(self.initProvider) && has(self.initProvider.userName))",message="spec.forProvider.userName is a required parameter"
 	Spec   UserSpec   `json:"spec"`
 	Status UserStatus `json:"status,omitempty"`
 }

@@ -98,11 +98,6 @@ spec:
                     items:
                       type: string
                     type: array
-                  userName:
-                    description: |-
-                      (String) User name
-                      User name
-                    type: string
                 type: object
               initProvider:
                 description: |-
@@ -143,11 +138,6 @@ spec:
                     items:
                       type: string
                     type: array
-                  userName:
-                    description: |-
-                      (String) User name
-                      User name
-                    type: string
                 required:
                 - passwordSecretRef
                 type: object
@@ -322,10 +312,6 @@ spec:
             - message: spec.forProvider.passwordSecretRef is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.passwordSecretRef)'
-            - message: spec.forProvider.userName is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.userName)
-                || (has(self.initProvider) && has(self.initProvider.userName))'
           status:
             description: UserStatus defines the observed state of User.
             properties:
@@ -340,11 +326,6 @@ spec:
                     items:
                       type: string
                     type: array
-                  userName:
-                    description: |-
-                      (String) User name
-                      User name
-                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.

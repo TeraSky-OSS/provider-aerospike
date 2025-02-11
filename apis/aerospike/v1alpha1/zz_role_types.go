@@ -62,10 +62,6 @@ type RoleInitParameters struct {
 	// Read quota to apply to the role
 	ReadQuota *float64 `json:"readQuota,omitempty" tf:"read_quota,omitempty"`
 
-	// (String) Role name
-	// Role name
-	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
-
 	// (List of String) A list of IP addresses allowed to connect.
 	// A list of IP addresses allowed to connect.
 	WhiteList []*string `json:"whiteList,omitempty" tf:"white_list,omitempty"`
@@ -85,10 +81,6 @@ type RoleObservation struct {
 	// (Number) Read quota to apply to the role
 	// Read quota to apply to the role
 	ReadQuota *float64 `json:"readQuota,omitempty" tf:"read_quota,omitempty"`
-
-	// (String) Role name
-	// Role name
-	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 
 	// (List of String) A list of IP addresses allowed to connect.
 	// A list of IP addresses allowed to connect.
@@ -110,11 +102,6 @@ type RoleParameters struct {
 	// Read quota to apply to the role
 	// +kubebuilder:validation:Optional
 	ReadQuota *float64 `json:"readQuota,omitempty" tf:"read_quota,omitempty"`
-
-	// (String) Role name
-	// Role name
-	// +kubebuilder:validation:Optional
-	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 
 	// (List of String) A list of IP addresses allowed to connect.
 	// A list of IP addresses allowed to connect.
@@ -164,7 +151,6 @@ type Role struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.privileges) || (has(self.initProvider) && has(self.initProvider.privileges))",message="spec.forProvider.privileges is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roleName) || (has(self.initProvider) && has(self.initProvider.roleName))",message="spec.forProvider.roleName is a required parameter"
 	Spec   RoleSpec   `json:"spec"`
 	Status RoleStatus `json:"status,omitempty"`
 }

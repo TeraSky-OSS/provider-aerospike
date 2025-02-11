@@ -96,11 +96,6 @@ spec:
                       (Number) Read quota to apply to the role
                       Read quota to apply to the role
                     type: number
-                  roleName:
-                    description: |-
-                      (String) Role name
-                      Role name
-                    type: string
                   whiteList:
                     description: |-
                       (List of String) A list of IP addresses allowed to connect.
@@ -151,11 +146,6 @@ spec:
                       (Number) Read quota to apply to the role
                       Read quota to apply to the role
                     type: number
-                  roleName:
-                    description: |-
-                      (String) Role name
-                      Role name
-                    type: string
                   whiteList:
                     description: |-
                       (List of String) A list of IP addresses allowed to connect.
@@ -341,10 +331,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.privileges)
                 || (has(self.initProvider) && has(self.initProvider.privileges))'
-            - message: spec.forProvider.roleName is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.roleName)
-                || (has(self.initProvider) && has(self.initProvider.roleName))'
           status:
             description: RoleStatus defines the observed state of Role.
             properties:
@@ -376,11 +362,6 @@ spec:
                       (Number) Read quota to apply to the role
                       Read quota to apply to the role
                     type: number
-                  roleName:
-                    description: |-
-                      (String) Role name
-                      Role name
-                    type: string
                   whiteList:
                     description: |-
                       (List of String) A list of IP addresses allowed to connect.
