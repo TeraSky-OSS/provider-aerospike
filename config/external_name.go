@@ -4,14 +4,19 @@ Copyright 2022 Upbound Inc.
 
 package config
 
-import "github.com/crossplane/upjet/pkg/config"
+import (
+	"context"
+	"errors"
+
+	"github.com/crossplane/upjet/pkg/config"
+)
 
 // ExternalNameConfigs contains all external name configurations for this
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// Import requires using a randomly generated ID from provider: nl-2e21sda
-	"aerospike_role": config.ParameterAsIdentifier("role_name"),
-	"aerospike_user": config.ParameterAsIdentifier("user_name"),
+	"aerospike_role": roleNameConfig(),
+	"aerospike_user": userNameConfig(),
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
@@ -36,4 +41,58 @@ func ExternalNameConfigured() []string {
 		i++
 	}
 	return l
+}
+
+func userNameConfig() config.ExternalName {
+	e := config.ParameterAsIdentifier("user_name")
+
+	e.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
+		user, ok := parameters["user_name"]
+		if !ok {
+			user = ""
+		}
+		return user.(string), nil
+	}
+
+	e.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
+		id, ok := tfstate["user_name"]
+		if !ok {
+			return "", errors.New("user_name attribute missing from state file")
+		}
+
+		idStr, ok := id.(string)
+		if !ok {
+			return "", errors.New("value of user_name needs to be string")
+		}
+		return idStr, nil
+	}
+
+	return e
+}
+
+func roleNameConfig() config.ExternalName {
+	e := config.ParameterAsIdentifier("role_name")
+
+	e.GetIDFn = func(_ context.Context, externalName string, parameters map[string]any, setup map[string]any) (string, error) {
+		role, ok := parameters["role_name"]
+		if !ok {
+			role = ""
+		}
+		return role.(string), nil
+	}
+
+	e.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
+		id, ok := tfstate["role_name"]
+		if !ok {
+			return "", errors.New("role_name attribute missing from state file")
+		}
+
+		idStr, ok := id.(string)
+		if !ok {
+			return "", errors.New("value of role_name needs to be string")
+		}
+		return idStr, nil
+	}
+
+	return e
 }

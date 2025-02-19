@@ -9,7 +9,6 @@ metadata:
 spec:
   forProvider:
     privileges:
-    - namespace: aerospike
+    - namespace: test
       privilege: read
       set: set1
-    readQuota: 10
