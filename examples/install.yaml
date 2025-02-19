@@ -3,4 +3,4 @@ kind: Provider
 metadata:
   name: provider-aerospike
 spec:
-  package: terasky-oss/provider-aerospike:v0.1.0
+  package: ghcr.io/terasky-oss/provider-aerospike:0.0.1-9.gc9e6452

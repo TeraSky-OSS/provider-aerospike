@@ -1,7 +1,7 @@
 apiVersion: aerospike.terasky.com/v1alpha1
 kind: Role
 metadata:
-  name: role2
+  name: test-role
 spec:
   forProvider:
     privileges:
