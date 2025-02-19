@@ -1,0 +1,14 @@
+apiVersion: aerospike.terasky.com/v1alpha1
+kind: User
+metadata:
+  name: test2
+spec:
+  forProvider:
+    passwordSecretRef:
+      key: password
+      name: auth-secret
+      namespace: crossplane-system
+    roles:
+    - data-admin
+    - read-write
+
