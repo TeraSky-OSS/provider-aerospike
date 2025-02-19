@@ -13,7 +13,7 @@ import (
 
 // Package type metadata.
 const (
-	Group   = "aerospike.aerospike.terasky.com"
+	Group   = "aerospike.terasky.com"
 	Version = "v1alpha1"
 )
 

@@ -4,9 +4,9 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.14.0
-  name: providerconfigusages.aerospike.aerospike.terasky.com
+  name: providerconfigusages.aerospike.terasky.com
 spec:
-  group: aerospike.aerospike.terasky.com
+  group: aerospike.terasky.com
   names:
     categories:
     - crossplane

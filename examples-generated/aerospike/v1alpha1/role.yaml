@@ -1,4 +1,4 @@
-apiVersion: aerospike.aerospike.terasky.com/v1alpha1
+apiVersion: aerospike.terasky.com/v1alpha1
 kind: Role
 metadata:
   annotations:
@@ -9,6 +9,7 @@ metadata:
 spec:
   forProvider:
     privileges:
-    - namespace: test
+    - namespace: aerospike
       privilege: read
       set: set1
+    readQuota: 10

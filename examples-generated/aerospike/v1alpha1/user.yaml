@@ -1,4 +1,4 @@
-apiVersion: aerospike.aerospike.terasky.com/v1alpha1
+apiVersion: aerospike.terasky.com/v1alpha1
 kind: User
 metadata:
   annotations:
